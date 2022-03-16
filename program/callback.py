@@ -1,75 +1,54 @@
-"""
-Video + Music Stream Telegram Bot
-Copyright (c) 2022-present levina=lab <https://github.com/levina-lab>
+# Copyright (C) 2021 By VeezMusicProject
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but without any warranty; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/licenses.html>
-"""
-
-
-from driver.core import me_bot, me_user
 from driver.queues import QUEUE
-from driver.decorators import check_blacklist
-from program.utils.inline import menu_markup, stream_markup
-
 from pyrogram import Client, filters
+from program.utils.inline import menu_markup
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-
 from config import (
+    ASSISTANT_NAME,
+    BOT_NAME,
     BOT_USERNAME,
     GROUP_SUPPORT,
-    OWNER_USERNAME,
+    OWNER_NAME,
     UPDATES_CHANNEL,
-    SUDO_USERS,
-    OWNER_ID,
 )
 
 
-@Client.on_callback_query(filters.regex("home_start"))
-@check_blacklist()
-async def start_set(_, query: CallbackQuery):
-    await query.answer("home start")
+@Client.on_callback_query(filters.regex("cbstart"))
+async def cbstart(_, query: CallbackQuery):
+    await query.answer("الصفحه الرئيسيه")
     await query.edit_message_text(
-        f"""✨ **Welcome [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !**\n
-💭 [{me_bot.first_name}](https://t.me/{BOT_USERNAME}) **Is a bot to play music and video in groups, through the Telegram Group video chat!**
+        f"""✨ **مرحبا عزيزي ↤「 [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) 」!**\n
+💭 **انا بوت استطيع تشغيل الموسيقي والفديو في محادثتك الصوتية**
 
-💡 **Find out all the Bot's commands and how they work by clicking on the » 📚 Commands button!**
+💡 تعلم طريقة تشغيلي واوامر التحكم بي عن طريق  » 📚 الاوامر !
 
-🔖 **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
+🔖 لتعلم طريقة تشغيلي بمجموعتك اضغط علي » ❓طريقة التفعيل !
+""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "➕ اضـف البـوت لـمـجـمـوعـتـك ➕",
-                        url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+                        "➕اضـف الـبـوت لـمـجـمـوعـتـك➕",
+                        url=f"https://t.me/T6_ZZ?startgroup=truehttps://t.me/T6_ZZ?startgroup=true",
                     )
                 ],
-                [InlineKeyboardButton("❓ Basic Guide", callback_data="user_guide")],
+                [InlineKeyboardButton("❓ طريقة التفعيل", callback_data="cbhowtouse")],
                 [
-                    InlineKeyboardButton("📚 الاوامــر", callback_data="command_list"),
-                    InlineKeyboardButton("❤️ الـمـطـور", url=f"https://t.me/{OWNER_USERNAME}"),
+                    InlineKeyboardButton("📚 الاوامر", callback_data="cbcmds"),
+                    InlineKeyboardButton("❤️ المطور", url=f"https://t.me/{OWNER_NAME}"),
                 ],
                 [
                     InlineKeyboardButton(
-                        "👥 جـروب الـدعـم", url=f"https://t.me/{GROUP_SUPPORT}"
+                        "👥 جروب الدعم", url=f"https://t.me/{GROUP_SUPPORT}"
                     ),
                     InlineKeyboardButton(
-                        "📣 قـناة الـسـورس", url=f"https://t.me/{UPDATES_CHANNEL}"
+                        "📣 قناة البوت", url=f"https://t.me/sseroc"
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        "🌐 البـشمـبرمج جـــاكــســون", url="https://t.me/J_X_S1"
+                        "𓌹●↯‌•𓆩 𝗧𝗶𝗸 𝗧𝗼𝗸 : حكومه 𓆪•↯●𓌺", url="https://t.me/T6_ZZ?startgroup=true"
                     )
                 ],
             ]
@@ -78,237 +57,139 @@ async def start_set(_, query: CallbackQuery):
     )
 
 
-@Client.on_callback_query(filters.regex("quick_use"))
-@check_blacklist()
-async def quick_set(_, query: CallbackQuery):
-    await query.answer("quick bot usage")
+@Client.on_callback_query(filters.regex("cbhowtouse"))
+async def cbguides(_, query: CallbackQuery):
+    await query.answer("طريقة الاستخدام")
     await query.edit_message_text(
-        f"""ℹ️ Quick use Guide bot, please read fully !
+        f""" الدليل الأساسي لاستخدام هذا البوت:
 
-👩🏻‍💼 » /play - Type this with give the song title or youtube link or audio file to play Music. (Remember to don't play YouTube live stream by using this command!, because it will cause unforeseen problems.)
+ 1 ↤ أولاً ، أضفني إلى مجموعتك
+ 2 ↤ بعد ذلك ، قم بترقيتي كمشرف ومنح جميع الصلاحيات باستثناء الوضع الخفي
+ 3 ↤ بعد ترقيتي ، اكتب /reload مجموعة لتحديث بيانات المشرفين
+ 4 ↤ أضف @{ASSISTANT_NAME} إلى مجموعتك أو اكتب /userbotjoin لدعوة حساب المساعد
+ 5 ↤ قم بتشغيل المكالمة  أولاً قبل البدء في تشغيل الفيديو / الموسيقى
+ 6 ↤ في بعض الأحيان ، يمكن أن تساعدك إعادة تحميل البوت باستخدام الأمر /reload في إصلاح بعض المشكلات
+ 📌 إذا لم ينضم البوت إلى المكالمة ، فتأكد من تشغيل المكالمة  بالفعل ، أو اكتب /userbotleave ثم اكتب /userbotjoin مرة أخرى
 
-👩🏻‍💼 » /vplay - Type this with give the song title or youtube link or video file to play Video. (Remember to don't play YouTube live video by using this command!, because it will cause unforeseen problems.)
+ 💡 إذا كانت لديك أسئلة  حول هذا البوت ، فيمكنك إخبارنا منن خلال قروب الدعم الخاصة بي هنا ↤ @{GROUP_SUPPORT}
 
-👩🏻‍💼 » /vstream - Type this with give the YouTube live stream video link or m3u8 link to play live Video. (Remember to don't play local audio/video files or non-live YouTube video by using this command!, because it will cause unforeseen problems.)
-
-❓ Have questions? Contact us in [Support Group](https://t.me/{GROUP_SUPPORT}).""",
+⚡ قناة البوت @{UPDATES_CHANNEL}
+""",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Go Back", callback_data="user_guide")]]
+            [[InlineKeyboardButton("🔙 رجوع", callback_data="cbstart")]]
         ),
-        disable_web_page_preview=True,
     )
 
 
-@Client.on_callback_query(filters.regex("user_guide"))
-@check_blacklist()
-async def guide_set(_, query: CallbackQuery):
-    await query.answer("user guide")
+@Client.on_callback_query(filters.regex("cbcmds"))
+async def cbcmds(_, query: CallbackQuery):
+    await query.answer("قائمة الاوامر")
     await query.edit_message_text(
-        f"""❓ How to use this Bot ?, read the Guide below !
+        f"""» **قم بالضغط علي الزر الذي تريده لمعرفه الاوامر لكل فئه منهم !**
 
-1.) First, add this bot to your Group.
-2.) Then, promote this bot as administrator on the Group also give all permissions except Anonymous admin.
-3.) After promoting this bot, type /reload in Group to update the admin data.
-3.) Invite @{me_user.username} to your group or type /userbotjoin to invite her, unfortunately the userbot will joined by itself when you type `/play (song name)` or `/vplay (song name)`.
-4.) Turn on/Start the video chat first before start to play video/music.
-
-`- END, EVERYTHING HAS BEEN SETUP -`
-
-📌 If the userbot not joined to video chat, make sure if the video chat already turned on and the userbot in the chat.
-
-💡 If you have a follow-up questions about this bot, you can tell it on my support chat here: @{GROUP_SUPPORT}.""",
+⚡ قناة البوت @{UPDATES_CHANNEL}""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("» Quick use Guide «", callback_data="quick_use")
+                    InlineKeyboardButton("👷🏻 اوامر الادمنيه", callback_data="cbadmin"),
+                    InlineKeyboardButton("🧙🏻 اوامر المطور", callback_data="cbsudo"),
                 ],[
-                    InlineKeyboardButton("🔙 Go Back", callback_data="home_start")
+                    InlineKeyboardButton("📚 اوامر اساسيه", callback_data="cbbasic")
+                ],[
+                    InlineKeyboardButton("🔙 رجوع", callback_data="cbstart")
                 ],
             ]
         ),
     )
 
 
-@Client.on_callback_query(filters.regex("command_list"))
-@check_blacklist()
-async def commands_set(_, query: CallbackQuery):
-    user_id = query.from_user.id
-    await query.answer("commands menu")
+@Client.on_callback_query(filters.regex("cbbasic"))
+async def cbbasic(_, query: CallbackQuery):
+    await query.answer("الاوامر الاساسيه")
     await query.edit_message_text(
-        f"""✨ **Hello [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !**
+        f"""🏮 الاوامر الاساسيه:
 
-» Check out the menu below to read the module information & see the list of available Commands !
-
-All commands can be used with (`! / .`) handler""",
+» /play +「اسم الأغنية / رابط」لتشغيل اغنيه في المحادثه الصوتيه
+» /vplay +「اسم الفيديو / رابط 」 لتشغيل الفيديو داخل المكالمة
+» /vstream 「رابط」 تشغيل فيديو مباشر من اليوتيوب
+» /playlist 「تظهر لك قائمة التشغيل」
+» /end「لإنهاء الموسيقى / الفيديو في الكول」
+» /song + 「الاسم تنزيل صوت من youtube」
+»/vsong + 「الاسم  تنزيل فيديو من youtube」
+» /skip「للتخطي إلى التالي」
+» /ping 「إظهار حالة البوت بينغ」
+» /uptime 「لعرض مده التشغيل للبوت」
+» /alive「اظهار معلومات البوت(في المجموعه)」
+⚡ قناة البوت @{UPDATES_CHANNEL}""",
         reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("👮🏻‍♀️ Admins Commands", callback_data="admin_command"),
-                ],[
-                    InlineKeyboardButton("👩🏻‍💼 Users Commands", callback_data="user_command"),
-                ],[
-                    InlineKeyboardButton("Sudo Commands", callback_data="sudo_command"),
-                    InlineKeyboardButton("Owner Commands", callback_data="owner_command"),
-                ],[
-                    InlineKeyboardButton("🔙 Go Back", callback_data="home_start")
-                ],
-            ]
+            [[InlineKeyboardButton("🔙 رجوع", callback_data="cbcmds")]]
         ),
     )
 
 
-@Client.on_callback_query(filters.regex("user_command"))
-@check_blacklist()
-async def user_set(_, query: CallbackQuery):
-    BOT_NAME = me_bot.first_name
-    await query.answer("basic commands")
+
+@Client.on_callback_query(filters.regex("cbadmin"))
+async def cbadmin(_, query: CallbackQuery):
+    await query.answer("اوامر الادمنيه")
     await query.edit_message_text(
-        f"""✏️ Command list for all user.
+        f"""🏮 هنا أوامر الادمنيه:
 
-» /play (song name/link) - play music on video chat
-» /vplay (video name/link) - play video on video chat
-» /vstream (m3u8/yt live link) - play live stream video
-» /playlist - see the current playing song
-» /lyric (query) - scrap the song lyric
-» /video (query) - download video from youtube
-» /song (query) - download song from youtube
-» /search (query) - search a youtube video link
-» /ping - show the bot ping status
-» /uptime - show the bot uptime status
-» /alive - show the bot alive info (in Group only)
-
-⚡️ __Powered by {BOT_NAME} AI__""",
+» /pause 「ايقاف التشغيل موقتآ」
+» /resume 「استئناف التشغيل」
+» /stop「لإيقاف التشغيل」
+» /vmute 「لكتم البوت」
+» /vunmute 「لرفع الكتم عن البوت」
+» /volume 「ضبط مستوئ الصوت」
+» /reload「لتحديث البوت و قائمة المشرفين」
+» /userbotjoin「لاستدعاء الحساب المساعد」
+» /userbotleave「لطرد الحساب المساعد」
+⚡ قناة البوت @{UPDATES_CHANNEL}""",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Go Back", callback_data="command_list")]]
+            [[InlineKeyboardButton("🔙 رجوع", callback_data="cbcmds")]]
+        ),
+    )
+
+@Client.on_callback_query(filters.regex("cbsudo"))
+async def cbsudo(_, query: CallbackQuery):
+    await query.answer("اوامر المطور")
+    await query.edit_message_text(
+        f"""🏮 هنا اوامر المطور:
+
+» /rmw「لحذف جميع الملفات 」
+» /rmd「حذف جميع الملفات المحمله」
+» /sysinfo「لمعرفه معلومات السيرفر」
+» /update「لتحديث بوتك لاخر نسخه」
+» /restart「اعاده تشغيل البوت」
+» /leaveall「خروج الحساب المساعد من جميع المجموعات」
+
+⚡ قناة البوت @{UPDATES_CHANNEL}""",
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("🔙 رجوع", callback_data="cbcmds")]]
         ),
     )
 
 
-@Client.on_callback_query(filters.regex("admin_command"))
-@check_blacklist()
-async def admin_set(_, query: CallbackQuery):
-    BOT_NAME = me_bot.first_name
-    await query.answer("admin commands")
-    await query.edit_message_text(
-        f"""✏️ Command list for group admin.
-
-» /pause - pause the current track being played
-» /resume - play the previously paused track
-» /skip - goes to the next track
-» /stop - stop playback of the track and clears the queue
-» /vmute - mute the streamer userbot on group call
-» /vunmute - unmute the streamer userbot on group call
-» /volume `1-200` - adjust the volume of music (userbot must be admin)
-» /reload - reload bot and refresh the admin data
-» /userbotjoin - invite the userbot to join group
-» /userbotleave - order userbot to leave from group
-» /startvc - start/restart the group call
-» /stopvc - stop/discard the group call
-
-⚡️ __Powered by {BOT_NAME} AI__""",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Go Back", callback_data="command_list")]]
-        ),
-    )
-
-
-@Client.on_callback_query(filters.regex("sudo_command"))
-@check_blacklist()
-async def sudo_set(_, query: CallbackQuery):
-    user_id = query.from_user.id
-    BOT_NAME = me_bot.first_name
-    if user_id not in SUDO_USERS:
-        await query.answer("⚠️ You don't have permissions to click this button\n\n» This button is reserved for sudo members of this bot.", show_alert=True)
-        return
-    await query.answer("sudo commands")
-    await query.edit_message_text(
-        f"""✏️ Command list for sudo user.
-
-» /stats - get the bot current statistic
-» /calls - show you the list of all active group call in database
-» /block (`chat_id`) - use this to blacklist any group from using your bot
-» /unblock (`chat_id`) - use this to whitelist any group from using your bot
-» /blocklist - show you the list of all blacklisted chat
-» /speedtest - run the bot server speedtest
-» /sysinfo - show the system information
-» /logs - generate the current bot logs
-» /eval - execute any code (`developer stuff`)
-» /sh - run any command (`developer stuff`)
-
-⚡ __Powered by {BOT_NAME} AI__""",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Go Back", callback_data="command_list")]]
-        ),
-    )
-
-
-@Client.on_callback_query(filters.regex("owner_command"))
-@check_blacklist()
-async def owner_set(_, query: CallbackQuery):
-    user_id = query.from_user.id
-    BOT_NAME = me_bot.first_name
-    if user_id not in OWNER_ID:
-        await query.answer("⚠️ You don't have permissions to click this button\n\n» This button is reserved for owner of this bot.", show_alert=True)
-        return
-    await query.answer("owner commands")
-    await query.edit_message_text(
-        f"""✏️ Command list for bot owner.
-
-» /gban (`username` or `user_id`) - for global banned people, can be used only in group
-» /ungban (`username` or `user_id`) - for un-global banned people, can be used only in group
-» /update - update your bot to latest version
-» /restart - restart your bot directly
-» /leaveall - order userbot to leave from all group
-» /leavebot (`chat id`) - order bot to leave from the group you specify
-» /broadcast (`message`) - send a broadcast message to all groups in bot database
-» /broadcast_pin (`message`) - send a broadcast message to all groups in bot database with the chat pin
-
-⚡ __Powered by {BOT_NAME} AI__""",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Go Back", callback_data="command_list")]]
-        ),
-    )
-
-
-@Client.on_callback_query(filters.regex("stream_menu_panel"))
-@check_blacklist()
-async def at_set_markup_menu(_, query: CallbackQuery):
-    user_id = query.from_user.id
+@Client.on_callback_query(filters.regex("cbmenu"))
+async def cbmenu(_, query: CallbackQuery):
     a = await _.get_chat_member(query.message.chat.id, query.from_user.id)
     if not a.can_manage_voice_chats:
-        return await query.answer("💡 Only admin with manage video chat permission that can tap this button !", show_alert=True)
+        return await query.answer("💡 المسؤول الوحيد الذي لديه إذن إدارة الدردشات الصوتية يمكنه النقر على هذا الزر !", show_alert=True)
     chat_id = query.message.chat.id
     user_id = query.message.from_user.id
     buttons = menu_markup(user_id)
+    chat = query.message.chat.title
     if chat_id in QUEUE:
-        await query.answer("control panel opened")
-        await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
+          await query.edit_message_text(
+              f"⚙️ **الإعدادات** {query.message.chat.title}\n\n⏸ : ايقاف التشغيل موقتآ\n▶️ : استئناف التشغيل\n🔇 : كتم الصوت\n🔊 : الغاء كتم الصوت\n⏹ : ايقاف التشغيل",
+              reply_markup=InlineKeyboardMarkup(buttons),
+          )
     else:
-        await query.answer("❌ nothing is currently streaming", show_alert=True)
+        await query.answer("❌ قائمة التشغيل فارغه", show_alert=True)
 
 
-@Client.on_callback_query(filters.regex("stream_home_panel"))
-@check_blacklist()
-async def is_set_home_menu(_, query: CallbackQuery):
+@Client.on_callback_query(filters.regex("cls"))
+async def close(_, query: CallbackQuery):
     a = await _.get_chat_member(query.message.chat.id, query.from_user.id)
     if not a.can_manage_voice_chats:
-        return await query.answer("💡 Only admin with manage video chat permission that can tap this button !", show_alert=True)
-    await query.answer("control panel closed")
-    user_id = query.message.from_user.id
-    buttons = stream_markup(user_id)
-    await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
-
-
-@Client.on_callback_query(filters.regex("set_close"))
-@check_blacklist()
-async def on_close_menu(_, query: CallbackQuery):
-    a = await _.get_chat_member(query.message.chat.id, query.from_user.id)
-    if not a.can_manage_voice_chats:
-        return await query.answer("💡 Only admin with manage video chat permission that can tap this button !", show_alert=True)
-    await query.message.delete()
-
-
-@Client.on_callback_query(filters.regex("close_panel"))
-@check_blacklist()
-async def in_close_panel(_, query: CallbackQuery):
+        return await query.answer("💡 المسؤول الوحيد الذي لديه إذن إدارة الدردشات الصوتية يمكنه النقر على هذا الزر !", show_alert=True)
     await query.message.delete()
